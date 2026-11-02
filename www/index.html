@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1720">
+<link rel="manifest" href="manifest.json">
+<title>Lock-In</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#14181f;--mu:#6b7380;--ac:#1f7a5c;--bd:#e3e6ea;--ex:#fdecea;--exb:#d64545;--now:#e6f4ee}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1720;--card:#18222e;--tx:#e9edf2;--mu:#93a0ae;--ac:#3ec28f;--bd:#27333f;--ex:#3a1f22;--exb:#ff7676;--now:#173528}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,sans-serif;padding-bottom:70px}
+main{padding:12px 16px;max-width:640px;margin:0 auto}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.nav button{background:var(--card);border:1px solid var(--bd);color:var(--tx);width:44px;height:44px;border-radius:12px;font-size:22px}
+.date{text-align:center}.date b{font-size:20px;display:block}.date span{color:var(--mu);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin:0 0 10px}
+.card.exam{background:var(--ex);border-color:var(--exb)}.card.today{border-color:var(--ac);border-width:2px}
+.muted{color:var(--mu)}.small{font-size:13px;margin-top:4px}
+.prog{height:6px;background:var(--bd);border-radius:3px;margin:10px 0 4px;overflow:hidden}.prog div{height:100%;background:var(--ac)}
+.list{margin-top:10px}
+.row{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:8px}
+.row input{width:22px;height:22px;margin-top:2px;accent-color:var(--ac)}
+.row .tm{font-variant-numeric:tabular-nums;color:var(--mu);min-width:44px;font-size:13px;margin-top:2px}
+.row .tx{flex:1}.row small{display:block;color:var(--mu);margin-top:2px}
+.row.done .tx{opacity:.5;text-decoration:line-through}
+.row.now{background:var(--now);border-color:var(--ac)}
+.k-A,.k-B,.k-C,.k-D{border-left-color:var(--ac)}.k-gym{border-left-color:#e08a2e}.k-meal{border-left-color:#c9a227}.k-sleep{border-left-color:#6a5acd}
+.tag{background:var(--exb);color:#fff;border-radius:6px;padding:1px 6px;font-size:11px;font-weight:600}
+.lb{display:inline-block;min-width:30px;font-weight:700;color:var(--ac)}
+table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}td{padding:5px 0;border-bottom:1px solid var(--bd)}td.r{text-align:right;color:var(--mu)}
+.btn{margin-top:10px;width:100%;padding:12px;border:0;border-radius:12px;background:var(--ac);color:#fff;font-size:15px;font-weight:600}
+summary{cursor:pointer}.ehe{width:100%;margin-top:6px;padding:8px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;padding:14px 0;border:0;background:none;color:var(--mu);font-size:13px;font-weight:600}nav button.on{color:var(--ac)}
+</style></head>
+<body><main id="view"></main>
+<nav><button data-t="today">Today</button><button data-t="plan">Plan</button><button data-t="meals">Meals</button><button data-t="exams">Exams</button><button data-t="alarms">Alarms</button></nav>
+<script src="data.js"></script><script src="app.js"></script>
+</body></html>
