@@ -19,6 +19,12 @@
   function dayEvents(s) {
     if (!inPlan(s)) return [];
     const dow = parse(s).getDay(), plan = PLAN[s] || ["", "", ""], exam = EXAMS[s];
+    if (DAY_SCHEDULES[s]) {
+      const out = DAY_SCHEDULES[s].map(e => Object.assign({}, e));
+      const next = addDays(s, 1);
+      if (EXAMS[next]) out.push({ id: 90, t: "18:00", end: "18:05", k: "life", title: "Study ends. Exam tomorrow: " + EXAMS[next][0], body: "Pack hall ticket, ID, pens. In bed by 22:00.", alarm: true });
+      return out.sort((a, b) => a.t.localeCompare(b.t));
+    }
     const sunday = dow === 0, out = [];
     ROUTINE.forEach((r, i) => {
       let title = r.title, body = r.desc, t = r.t, end = r.end;
@@ -133,10 +139,11 @@
     const dow = parse(s).getDay(), plan = PLAN[s] || ["", "", ""];
     const total = ev.filter(e => /^[ABCD]$/.test(e.k)).length, ok = ev.filter(e => /^[ABCD]$/.test(e.k) && done[e.id]).length;
     const kcalPlan = ev.some(e => e.k === "meal") ? 2460 : 0;
+    const target = DAY_SCHEDULES[s] ? "Recovery day · no need to make up missed meals" : "target ~" + kcalPlan + " kcal";
     let h = '<div class="nav"><button id="prev" aria-label="Previous day">‹</button><div class="date"><b>' + fmt(s) + '</b><span>' + (s === real ? "Today" : "Day " + (Math.round((parse(s) - parse(PLAN_START)) / 864e5) + 1) + " of 106") + '</span></div><button id="next" aria-label="Next day">›</button></div>';
     if (exam) h += '<div class="card exam"><b>EXAM DAY</b><br>' + esc(exam[0]) + " (" + exam[1] + ")</div>";
     else if (ne) h += '<div class="card"><span class="muted">Next exam</span><br><b>' + esc(ne.n) + "</b> in <b>" + ne.days + "</b> day" + (ne.days === 1 ? "" : "s") + " (" + fmt(ne.d) + ")</div>";
-    h += '<div class="prog"><div style="width:' + (total ? ok / total * 100 : 0) + '%"></div></div><div class="muted small">' + ok + " of " + total + " study blocks done · target ~" + kcalPlan + " kcal</div>";
+    h += '<div class="prog"><div style="width:' + (total ? ok / total * 100 : 0) + '%"></div></div><div class="muted small">' + ok + " of " + total + " study blocks done · " + target + "</div>";
     h += '<div class="list">';
     ev.forEach(e => {
       const cur = s === real && e.t <= nowT && nowT < (e.end > e.t ? e.end : "24:00");
@@ -166,8 +173,12 @@
 
   function renderMeals() {
     const dow = parse(selDate).getDay(); let h = "";
-    h += '<div class="card"><b>Daily target: about 2,460 kcal</b><div class="small muted">Rough household-portion estimates, ~100 g protein. Adjust one snack (~250 kcal) if weight drifts over 1 kg in 2 weeks.</div></div>';
-    h += '<div class="card"><b>Today (' + DOW[dow] + ")</b><div class='small'>06:00 Banana, water: 110<br>08:30 " + esc(BREAKFAST[dow][0]) + ": " + BREAKFAST[dow][1] + "<br>12:30 Kerala meals lunch: 780<br>16:30 Tea snack: 250<br>19:00 " + esc(DINNER[dow][0]) + ": " + DINNER[dow][1] + "<br>22:00 Warm milk: 120</div></div>";
+    if (DAY_SCHEDULES[selDate]) {
+      h += '<div class="card"><b>Recovery-day meals</b><div class="small muted">12:00 Lunch<br>16:00 Tea and snack<br>19:00 Dinner<br>Eat normally; do not try to make up missed meals.</div></div>';
+    } else {
+      h += '<div class="card"><b>Daily target: about 2,460 kcal</b><div class="small muted">Rough household-portion estimates, ~100 g protein. Adjust one snack (~250 kcal) if weight drifts over 1 kg in 2 weeks.</div></div>';
+      h += '<div class="card"><b>Today (' + DOW[dow] + ")</b><div class='small'>06:00 Banana, water: 110<br>08:30 " + esc(BREAKFAST[dow][0]) + ": " + BREAKFAST[dow][1] + "<br>12:30 Kerala meals lunch: 780<br>16:30 Tea snack: 250<br>19:00 " + esc(DINNER[dow][0]) + ": " + DINNER[dow][1] + "<br>22:00 Warm milk: 120</div></div>";
+    }
     const tbl = (title, rows) => '<div class="card"><b>' + title + "</b><table>" + rows.map(r => "<tr><td>" + esc(r[0]) + "</td><td class='r'>" + r[1] + "</td></tr>").join("") + "</table></div>";
     const order = [1, 2, 3, 4, 5, 6, 0];
     h += tbl("Breakfast rotation", order.map(i => [DOW[i] + ": " + BREAKFAST[i][0], BREAKFAST[i][1]]));

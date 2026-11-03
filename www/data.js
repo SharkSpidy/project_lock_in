@@ -36,6 +36,24 @@ const ROUTINE = [
   { t: "22:30", end: "06:00", k: "sleep", title: "SLEEP", desc: "7.5 hours. Phone charges outside the bedroom.", alarm: true }
 ];
 
+// Recovery schedule for the late start on 3 Nov 2026. Later plans absorb the deferred work.
+const DAY_SCHEDULES = {
+  "2026-11-03": [
+    { id: 100, t: "12:00", end: "12:30", k: "meal", title: "Lunch and reset", body: "Eat, drink water, and set up the desk. Start fresh at 12:30." },
+    { id: 101, t: "12:30", end: "14:15", k: "A", title: "Compiler Lab: LEX setup and programs Q1-2", body: "Get the LEX environment working, then complete and test Q1-2.", alarm: true },
+    { id: 102, t: "14:15", end: "14:30", k: "life", title: "Break", body: "Step away from the screen and stretch." },
+    { id: 103, t: "14:30", end: "16:00", k: "B", title: "Compiler Lab: LEX programs Q3-5", body: "Finish Q3-5, then run the LEX programs completed today.", alarm: true },
+    { id: 104, t: "16:00", end: "16:30", k: "meal", title: "Tea and snack", body: "Have a snack and take a proper break." },
+    { id: 105, t: "16:30", end: "17:30", k: "C", title: "AI M1: agents and environments", body: "Cover agent types, rationality, and task environments. Make a short recall sheet.", alarm: true },
+    { id: 106, t: "17:30", end: "18:00", k: "life", title: "Walk and reset", body: "Easy walk or stretch; skip the gym today." },
+    { id: 107, t: "18:00", end: "19:00", k: "D", title: "YACC: set up and start Q6", body: "Get YACC compiling and outline the expression grammar. Finish Q6 and complete Q7-9 tomorrow.", alarm: true },
+    { id: 108, t: "19:00", end: "19:45", k: "meal", title: "Dinner", body: "Eat dinner away from the desk." },
+    { id: 109, t: "20:00", end: "20:45", k: "life", title: "Short recall and tomorrow setup", body: "Recall the LEX programs without notes, write down blockers, and prepare the YACC tasks for tomorrow." },
+    { id: 110, t: "22:00", end: "22:30", k: "life", title: "Wind-down", body: "Screens off, get ready for bed, and keep the normal sleep time." },
+    { id: 111, t: "22:30", end: "06:00", k: "sleep", title: "SLEEP", body: "Keep the normal sleep schedule.", alarm: true }
+  ]
+};
+
 const GYM = ["Sun: 30-min walk + mobility only", "Mon: Push (chest, shoulders, triceps)", "Tue: Pull (back, biceps)", "Wed: Legs", "Thu: 35 min easy cardio + core", "Fri: Upper body", "Sat: Lower body"];
 
 // Meals by weekday index (0=Sun). [name, kcal]
@@ -63,12 +81,12 @@ const SNACKS = [["Tea with milk + steamed nendran banana", 250], ["Chai + kadala
 // Per-day study plan: "YYYY-MM-DD": [Blocks A+B, Block C, Block D]. Empty string = free.
 const PLAN = {
 "2026-11-02": ["Lab: LEX setup, lexical analyzer in C, LEX programs Q1-5 (line/word count, abc to ABC, vowels)", "AI M1: agents, rationality, environments", "Rewrite 2 LEX programs from memory"],
-"2026-11-03": ["Lab: YACC programs Q6-9 (expression grammar, identifier, calculator, AST)", "AI M2: uninformed search (BFS, DFS, UCS, IDDFS)", "Rewrite LEX + YACC calculator"],
-"2026-11-04": ["Lab: NFA/DFA Q10-13 (epsilon-closure, e-NFA to NFA, NFA to DFA, DFA minimization)", "AI M2: informed search, A*, heuristics", "Rewrite NFA to DFA"],
-"2026-11-05": ["Lab: FIRST/FOLLOW, recursive descent, shift-reduce (Q14-16)", "AI M3: minimax, alpha-beta", "Rewrite FIRST/FOLLOW"],
-"2026-11-06": ["Lab: constant propagation, intermediate code, 8086 back end (Q17-19)", "AI M3: CSP, backtracking, constraint propagation", "Rewrite ICG program"],
-"2026-11-07": ["Lab mock 1 + 2: 3 random programs each in 90 min, fix errors", "AI M4: propositional logic", "Update the fair record"],
-"2026-11-08": ["Finish the fair record (aim, algorithm, code, output, result). Redo the 2 weakest programs. Stop at 11:30.", "", ""],
+"2026-11-03": ["Recovery: Compiler Lab LEX setup and Q1-5; start YACC Q6", "AI M1: agents, rationality, environments (recovery)", "Recall LEX and prepare to finish Q6 and do YACC Q7-9 tomorrow"],
+"2026-11-04": ["Lab: finish YACC Q6 and complete Q7-9 (expression grammar, identifier, calculator, AST)", "AI M2: uninformed search (BFS, DFS, UCS, IDDFS)", "Rewrite the YACC calculator"],
+"2026-11-05": ["Lab: NFA/DFA Q10-13 (epsilon-closure, e-NFA to NFA, NFA to DFA, DFA minimization)", "AI M2: informed search, A*, heuristics; M3: minimax and alpha-beta", "Rewrite NFA to DFA"],
+"2026-11-06": ["Lab: FIRST/FOLLOW, recursive descent, shift-reduce (Q14-16)", "AI M3: CSP, backtracking, constraint propagation", "Rewrite FIRST/FOLLOW"],
+"2026-11-07": ["Lab: constant propagation, intermediate code, 8086 back end (Q17-19)", "AI M4: propositional logic", "Rewrite ICG and update the fair record"],
+"2026-11-08": ["Lab mock 1 + 2: 3 random programs each in 90 min; fix errors and finish the fair record", "Redo the 2 weakest programs", ""],
 "2026-11-09": ["EXAM: Compiler Lab. Skim algorithms for 1 hour first. Bring the fair record. Rest after.", "", "AI M4 skim (1 hour)"],
 "2026-11-10": ["AI M4: first-order logic, syntax, using FOL, knowledge representation", "Cloud M1: paradigms, NIST model, IaaS/PaaS/SaaS, deployment models", "ISE M1"],
 "2026-11-11": ["AI M4: unification, forward/backward chaining, resolution proofs", "Cloud M2: virtualization, hypervisors, Xen, VMware", "ISE M2"],
